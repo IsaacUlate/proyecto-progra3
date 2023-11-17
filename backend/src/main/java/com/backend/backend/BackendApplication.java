@@ -8,7 +8,7 @@ public class BackendApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendApplication.class, args);
-
+//BD en caso que se haga en linea mas a futuro:
 /*#spring.datasource.url=jdbc:mysql://bd-proyecto-aws.cbdhz1ksbfwl.us-east-1.rds.amazonaws.com:3306/notasdb_aws?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrival=true
 #spring.datasource.url=jdbc:mysql://bd-proyecto-aws.cbdhz1ksbfwl.us-east-1.rds.amazonaws.com:3306/notasdb_aws?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC
 spring.datasource.url=jdbc:mysql://bd-proyecto-aws.cbdhz1ksbfwl.us-east-1.rds.amazonaws.com:3306/notasdb_aws
