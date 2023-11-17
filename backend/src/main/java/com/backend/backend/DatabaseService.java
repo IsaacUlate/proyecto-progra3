@@ -1,9 +1,9 @@
 package com.backend.backend;
 
+//Se importan las librerías
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,9 +15,9 @@ public class DatabaseService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    //Se crea getAllUsers para mostrar todos los usuarios
     public List<User> getAllUsers() {
         try {
-            // Replace 'app_log' with your actual table name and adjust the query as needed
             String query = "SELECT * FROM Usuario";
             List<Map<String, Object>> resultProducts = jdbcTemplate.queryForList(query);
             List<User> GetUsers = new ArrayList<>();
@@ -35,23 +35,44 @@ public class DatabaseService {
             }
             return GetUsers;
         } catch (Exception e) {
-            // Handle exceptions if needed
             e.printStackTrace();
             return null;
         }
     }
 
+    //Se crea getUser para mostrar a los usuarios por ID
+    public User getUser(int id) {
+        System.out.println("logId = " + id);
+        try {
+            String query = "SELECT * FROM USUARIO WHERE ID_Usuario = ?";
 
+            return jdbcTemplate.queryForObject(query, (rs, rowNum) -> {
+                int UserID = (int)rs.getInt("ID_Usuario");
+                String Name = rs.getString("Nombre");
+                String Lastnames = rs.getString("Apellidos");
+                String Email = rs.getString("Email");
+                String Username = rs.getString("Nombre_Usuario");
+                String Password = rs.getString("Contraseña");
+              
+                return new User(UserID, Name, Lastnames, Email, Username, Password);
+            }, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    //Se crea el insertUsuario para agregar usuarios
     public void insertUsuario(User user) {
         try {
             String query = "INSERT USUARIO SET Nombre = ?, Apellidos = ?, Email = ?, Nombre_Usuario = ?, Contraseña = ? ";
             jdbcTemplate.update(query, user.getName(),user.getLastnames(),user.getEmail(), user.getUsername(), user.getPassword());
         } catch (Exception e) {
             e.printStackTrace();
-            // Handle exceptions if needed
         }
     }
 
+    //Se crea el deleteUsuario para eliminar usuarios
     public int deleteUsuario(int id) {
         try {
             String query = "DELETE FROM USUARIO WHERE ID_Usuario = ?";
@@ -60,11 +81,6 @@ public class DatabaseService {
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
-            // Handle exceptions if needed
         }
     }
-
-   
-
-    
 }

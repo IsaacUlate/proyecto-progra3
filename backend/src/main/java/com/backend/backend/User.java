@@ -1,6 +1,7 @@
 package com.backend.backend;
 
 public class User {
+    //Variables para Usuarios
     private int UserID;
     private String Name;
     private String Lastnames;
@@ -9,6 +10,7 @@ public class User {
     private String Password;
     private String JWT;
     
+    //Constructor de Usuarios
     public User(int userID, String name, String lastnames, String email, String username, String password) {
         UserID = userID;
         Name = name;
@@ -17,6 +19,8 @@ public class User {
         Username = username;
         Password = password;
     }
+
+    //Getters & Setters
     public int getUserID() {
         return UserID;
     }
