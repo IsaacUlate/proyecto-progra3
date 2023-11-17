@@ -7,6 +7,8 @@ public class User {
     private String Email;
     private String Username;
     private String Password;
+    private String JWT;
+    
     public User(int userID, String name, String lastnames, String email, String username, String password) {
         UserID = userID;
         Name = name;

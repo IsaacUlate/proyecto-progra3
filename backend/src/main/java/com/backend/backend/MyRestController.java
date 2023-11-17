@@ -1,5 +1,7 @@
 package com.backend.backend;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,11 @@ public class MyRestController {
     @GetMapping
     public String hello() {
         return "Hello";
+    }
+
+    @GetMapping("/allUsers")
+    public List<User> all() {
+        return databaseService.getAllUsers() ;
     }
 
     @PostMapping("/all")
