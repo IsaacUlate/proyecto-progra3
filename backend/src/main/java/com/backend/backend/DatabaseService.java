@@ -95,4 +95,29 @@ public class DatabaseService {
         }
     }
 
+    public List<Note> getAllNotes() {
+        try {
+            String query = "SELECT * FROM NOTAS";
+            List<Map<String, Object>> resultProducts = jdbcTemplate.queryForList(query);
+            List<Note> GetNotes = new ArrayList<>();
+
+            for (Map<String, Object> row : resultProducts) {
+
+                int noteID = (int) row.get("ID_NOTAS");
+                Boolean status = (boolean) row.get("ESTADO");
+                String title = (String) row.get("TITULO");
+                String content = (String) row.get("CONTENIDO");
+                int userID = (int) row.get("ID_USUARIO");
+               
+
+                Note note = new Note(noteID, status, title, content, userID);
+                GetNotes.add(note);
+            }
+            return GetNotes;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

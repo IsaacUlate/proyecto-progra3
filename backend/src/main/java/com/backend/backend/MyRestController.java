@@ -59,6 +59,11 @@ public class MyRestController {
         databaseService.insertNota(note);
     }
 
+    @GetMapping("/note/all")
+    public List<Note> allNotes() {
+        return databaseService.getAllNotes() ;
+    }
+
 
     
 }
