@@ -24,19 +24,19 @@ public class MyRestController {
     }
 
     //Llama a todos los usuarios de la base de datos
-    @GetMapping("/allUsers")
+    @GetMapping("/user/all")
     public List<User> all() {
         return databaseService.getAllUsers() ;
     }
 
     //Llama a un usuario existente por ID de la base de datos
-    @GetMapping("/UserID")
+    @GetMapping("/user/byid")
     public User all(int id) {
         return databaseService.getUser(id) ;
     }
 
     //Inserta Usuarios a la base de datos
-    @PostMapping("/Insert")
+    @PostMapping("/user")
     public void insert(String name, String lastnames, String email, String username, String password){
 
         User user = new User(0, name, lastnames, email, username, password);
@@ -44,11 +44,21 @@ public class MyRestController {
     }
     
     //Borra usuarios de la base de datos
-    @DeleteMapping("/Delete")
+    @DeleteMapping("/user")
     public void delete(int id) {
  
         databaseService.deleteUsuario(id) ;
     }
+
+    // **Notes**
+
+    @PostMapping("/note")
+    public void insert(String title, String content, int userID){
+
+        Note note = new Note(0,false,content, title, userID);
+        databaseService.insertNota(note);
+    }
+
 
     
 }

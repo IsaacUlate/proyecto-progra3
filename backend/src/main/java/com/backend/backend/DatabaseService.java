@@ -83,4 +83,16 @@ public class DatabaseService {
             return 0;
         }
     }
+
+    //** Notes **
+
+    public void insertNota(Note note) {
+        try {
+            String query = "INSERT NOTAS SET ESTADO = ?,TITULO = ?, CONTENIDO = ?, ID_USUARIO = ? "; 
+            jdbcTemplate.update(query, note.getStatus(),note.getTitle(),note.getContent(),note.getUserID());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
