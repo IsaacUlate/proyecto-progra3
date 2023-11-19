@@ -95,9 +95,10 @@ public class DatabaseService {
         }
     }
 
+    //Notas incompletas
     public List<Note> getAllNotes() {
         try {
-            String query = "SELECT * FROM NOTAS";
+            String query = "SELECT * FROM Notas WHERE ESTADO = 0 AND ID_USUARIO =?;";
             List<Map<String, Object>> resultProducts = jdbcTemplate.queryForList(query);
             List<Note> GetNotes = new ArrayList<>();
 
@@ -119,5 +120,64 @@ public class DatabaseService {
             return null;
         }
     }
+    //Notas completadas
+    public List<Note> getAllCompleteNotes() {
+        try {
+            String query = "SELECT * FROM Notas WHERE ESTADO = 1;";
+            List<Map<String, Object>> resultProducts = jdbcTemplate.queryForList(query);
+            List<Note> GetNotes = new ArrayList<>();
+
+            for (Map<String, Object> row : resultProducts) {
+
+                int noteID = (int) row.get("ID_NOTAS");
+                Boolean status = (boolean) row.get("ESTADO");
+                String title = (String) row.get("TITULO");
+                String content = (String) row.get("CONTENIDO");
+                int userID = (int) row.get("ID_USUARIO");
+               
+
+                Note note = new Note(noteID, status, title, content, userID);
+                GetNotes.add(note);
+            }
+            return GetNotes;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void updateNota(Note note) {
+        try {
+            String query = "UPDATE NOTAS SET TITULO = ?, CONTENIDO = ? WHERE ID_NOTAS = ?";
+            jdbcTemplate.update(query, note.getTitle(),note.getContent(), note.getNoteID());
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle exceptions if needed
+        }
+    }
+
+    public void updateNotaCompletada(Note note) {
+        try {
+            String query = "UPDATE NOTAS SET ESTADO = ? WHERE ID_NOTAS = ?";
+            jdbcTemplate.update(query, note.getStatus(), note.getNoteID());
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle exceptions if needed
+        }
+    }
+
+    public int deleteNota(int id) {
+        try {
+            String query = "DELETE FROM NOTAS WHERE ID_NOTAS = ?";
+            jdbcTemplate.update(query, id);
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+            // Handle exceptions if needed
+        }
+    }
+
+
 
 }
