@@ -1,10 +1,184 @@
-<html>
-  <header></header>
-  <body>
-    <h1>Manual de Usuario para utilizar el Bloc de Notas</h1>
-    <p>Para visualizar los datos de la base de datos de Usuarios con GET: http://localhost:8080/api/allUsers</p>
-    <p>Para visualizar los datos de la base de datos de Usuarios por ID con GET: http://localhost:8080/api/UserID </p>
-    <p>Para insertar datos a la base de datos de Usuarios con POST: http://localhost:8080/api/Insert </p>
-    <p>Para borrar datos de la base de datos de Usuarios con DELETE: http://localhost:8080/api/Delete </p>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual de Usuario - API</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Manual de Usuario - API</h1>
+
+    <div class="endpoint" onclick="toggleEndpoint(this)">
+        <h2>Endpoint 1: Get Users</h2>
+        <div class="endpoint-content">
+            <p>
+                <strong>Endpoint:</strong> <code>/user/all</code><br>
+                <strong>Método:</strong> GET<br>
+                <strong>Descripción:</strong> Llama a todos los usuarios de la base de datos.<br>
+                <strong>Ejemplo:</strong>
+                <pre>
+                    User{
+                        UserID = int;
+                        Name = String;
+                        Lastnames = String;
+                        Email = String;
+                        Username = String;
+                        Password = String;
+                    }
+                </pre>
+            </p>
+        </div>
+    </div>
+
+    <div class="endpoint" onclick="toggleEndpoint(this)">
+        <h2>Endpoint 2: User ID</h2>
+        <div class="endpoint-content">
+            <p>
+                <strong>Endpoint:</strong> <code>/user/byid</code><br>
+                <strong>Método:</strong> GET<br>
+                <strong>Descripción:</strong> Llama a un usuario existente por ID de la base de datos.<br>
+                <strong>Ejemplo:</strong>
+                <pre>      
+UserID(int)                                 
+UserID(10)                    
+                </pre>
+            </p>
+        </div>
+    </div>
+    <div class="endpoint" onclick="toggleEndpoint(this)">
+        <h2>Endpoint 3: Insertar Usuario</h2>
+        <div class="endpoint-content">
+            <p>
+                <strong>Endpoint:</strong> <code>/user</code><br>
+                <strong>Método:</strong> POST<br>
+                <strong>Descripción:</strong> Inserta Usuarios a la base de datos.<br>
+                <strong>Ejemplo:</strong>
+                <pre>
+User{                                       
+String name, String lastnames, String email, 
+String username, String password}                   
+                </pre>
+            </p>
+        </div>
+    </div>
+    <div class="endpoint" onclick="toggleEndpoint(this)">
+        <h2>Endpoint 4: Eliminar Usuario</h2>
+        <div class="endpoint-content">
+            <p>
+                <strong>Endpoint:</strong> <code>/user</code><br>
+                <strong>Método:</strong> DELETE<br>
+                <strong>Descripción:</strong> Borra usuarios de la base de datos.<br>
+                <strong>Ejemplo:</strong>
+                <pre>
+DELETE Usuario by (ID)
+                </pre>
+            </p>
+        </div>
+    </div>
+    <div class="endpoint" onclick="toggleEndpoint(this)">
+        <h2>Endpoint 5: Crear Nota</h2>
+        <div class="endpoint-content">
+            <p>
+                <strong>Endpoint:</strong> <code>/note</code><br>
+                <strong>Método:</strong> GET<br>
+                <strong>Descripción:</strong>Crea una nueva nota.<br>
+                <strong>Ejemplo:</strong>
+                <pre>
+                    
+note{
+int noteID,
+boolean status, 
+String title,
+String content, 
+int userID
+}
+                   
+                </pre>
+            </p>
+        </div>
+    </div>
+    <div class="endpoint" onclick="toggleEndpoint(this)">
+        <h2>Endpoint 6: Ver Notas</h2>
+        <div class="endpoint-content">
+            <p>
+                <strong>Endpoint:</strong> <code>/note/all</code><br>
+                <strong>Método:</strong> GET<br>
+                <strong>Descripción:</strong> Devuelve todas las notas.<br>
+                <strong>Ejemplo:</strong>
+                <pre>
+                    getAllNotes()
+                </pre>
+            </p>
+        </div>
+    </div>
+    <div class="endpoint" onclick="toggleEndpoint(this)">
+        <h2>Endpoint 7: Actualizar nota por ID</h2>
+        <div class="endpoint-content">
+            <p>
+                <strong>Endpoint:</strong> <code>/note/byid</code><br>
+                <strong>Método:</strong> PUT<br>
+                <strong>Descripción:</strong> Actualiza una nota existente por su ID<br>
+                <strong>Ejemplo:</strong>
+                <pre>
+                    updateNota(ID)
+                </pre>
+            </p>
+        </div>
+    </div>
+    <div class="endpoint" onclick="toggleEndpoint(this)">
+        <h2>Endpoint 8: Nota Completada</h2>
+        <div class="endpoint-content">
+            <p>
+                <strong>Endpoint:</strong> <code>/note/complete</code><br>
+                <strong>Método:</strong> PUT<br>
+                <strong>Descripción:</strong> Cambia el estado de una nota a completada por ID.<br>
+                <strong>Ejemplo:</strong>
+                <pre>
+                    updateNotaCompletada(true) by ID
+                </pre>
+            </p>
+        </div>
+    </div>
+    <div class="endpoint" onclick="toggleEndpoint(this)">
+        <h2>Endpoint 9: Ver Notas</h2>
+        <div class="endpoint-content">
+            <p>
+                <strong>Endpoint:</strong> <code>/note/complete</code><br>
+                <strong>Método:</strong> GET<br>
+                <strong>Descripción:</strong> Devuelve todas las notas Completadas.<br>
+                <strong>Ejemplo:</strong>
+                <pre>
+                    getAllNotes() -- status:true
+                </pre>
+            </p>
+        </div>
+    </div>
+    <div class="endpoint" onclick="toggleEndpoint(this)">
+        <h2>Endpoint 10: Delete by ID</h2>
+        <div class="endpoint-content">
+            <p>
+                <strong>Endpoint:</strong> <code>/note</code><br>
+                <strong>Método:</strong> DELETE<br>
+                <strong>Descripción:</strong> Elimina una nota por ID.<br>
+                <strong>Ejemplo:</strong>
+                <pre>
+                    Nota{int id}
+                </pre>
+            </p>
+        </div>
+    </div>
+    
+
+    <!-- Agregar información sobre otros endpoints -->
+
+    <script>
+        function toggleEndpoint(endpoint) {
+            const content = endpoint.querySelector('.endpoint-content');
+            content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + "px";
+        }
+    </script>
+
+</body>
 </html>
