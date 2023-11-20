@@ -1,0 +1,32 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.endpoint {
+    background-color: #f4f4f4;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    max-height: 500px; /* Altura máxima cuando está cerrado */
+}
+.endpoint h2 {
+    color: #3498db;
+    cursor: pointer;
+    margin: 0;
+}
+.endpoint-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+}
+code {
+    background-color: #ecf0f1;
+    padding: 2px 4px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    font-family: Monaco, monospace;
+}
