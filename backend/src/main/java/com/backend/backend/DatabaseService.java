@@ -62,6 +62,27 @@ public class DatabaseService {
         }
     }
 
+    public User authenticateUser(String username, String password) {
+        System.out.println("logId = " + username);
+        try {
+            String query = "SELECT * FROM USUARIO WHERE Username = ? and Password =?";
+
+            return jdbcTemplate.queryForObject(query, (rs, rowNum) -> {
+                int UserID = (int)rs.getInt("ID_Usuario");
+                String Name = rs.getString("Nombre");
+                String Lastnames = rs.getString("Apellidos");
+                String Email = rs.getString("Email");
+                String Username = rs.getString("Nombre_Usuario");
+                String Password = rs.getString("Contraseña");
+        
+                return new User(UserID,Name,Lastnames,Email,Username,Password);
+            }, username, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     //Se crea el insertUsuario para agregar usuarios
     public void insertUsuario(User user) {
         try {
@@ -162,7 +183,6 @@ public class DatabaseService {
             jdbcTemplate.update(query, note.getStatus(), note.getNoteID());
         } catch (Exception e) {
             e.printStackTrace();
-            // Handle exceptions if needed
         }
     }
 
@@ -174,7 +194,6 @@ public class DatabaseService {
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
-            // Handle exceptions if needed
         }
     }
 
