@@ -1,6 +1,4 @@
 package com.backend.backend;
-
-//Se importan las librerías
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,15 +12,14 @@ public class DatabaseService {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
     //Se crea getAllUsers para mostrar todos los usuarios
     public List<User> getAllUsers() {
         try {
             String query = "SELECT * FROM Usuario";
-            List<Map<String, Object>> resultProducts = jdbcTemplate.queryForList(query);
+            List<Map<String, Object>> resultDB = jdbcTemplate.queryForList(query);
             List<User> GetUsers = new ArrayList<>();
 
-            for (Map<String, Object> row : resultProducts) {
+            for (Map<String, Object> row : resultDB) {
                 int UserID = (int) row.get("ID_Usuario");
                 String Name = (String) row.get("Nombre");
                 String Lastnames = (String) row.get("Apellidos");
@@ -39,7 +36,6 @@ public class DatabaseService {
             return null;
         }
     }
-
     //Se crea getUser para mostrar a los usuarios por ID
     public User getUser(int id) {
         System.out.println("logId = " + id);
@@ -61,7 +57,6 @@ public class DatabaseService {
             return null;
         }
     }
-
     //Se crea el insertUsuario para agregar usuarios
     public void insertUsuario(User user) {
         try {
@@ -71,7 +66,6 @@ public class DatabaseService {
             e.printStackTrace();
         }
     }
-
     //Se crea el deleteUsuario para eliminar usuarios
     public int deleteUsuario(int id) {
         try {
@@ -83,9 +77,7 @@ public class DatabaseService {
             return 0;
         }
     }
-
-    //** Notes **
-
+    //******** Notes ********
     public void insertNota(Note note) {
         try {
             String query = "INSERT NOTAS SET ESTADO = ?,TITULO = ?, CONTENIDO = ?, ID_USUARIO = ? "; 
@@ -94,15 +86,14 @@ public class DatabaseService {
             e.printStackTrace();
         }
     }
-
     //Notas incompletas
     public List<Note> getAllNotes() {
         try {
             String query = "SELECT * FROM Notas WHERE ESTADO = 0 AND ID_USUARIO =?;";
-            List<Map<String, Object>> resultProducts = jdbcTemplate.queryForList(query);
+            List<Map<String, Object>> resultDB = jdbcTemplate.queryForList(query);
             List<Note> GetNotes = new ArrayList<>();
 
-            for (Map<String, Object> row : resultProducts) {
+            for (Map<String, Object> row : resultDB) {
 
                 int noteID = (int) row.get("ID_NOTAS");
                 Boolean status = (boolean) row.get("ESTADO");
@@ -110,7 +101,6 @@ public class DatabaseService {
                 String content = (String) row.get("CONTENIDO");
                 int userID = (int) row.get("ID_USUARIO");
                
-
                 Note note = new Note(noteID, status, title, content, userID);
                 GetNotes.add(note);
             }
@@ -124,10 +114,10 @@ public class DatabaseService {
     public List<Note> getAllCompleteNotes() {
         try {
             String query = "SELECT * FROM Notas WHERE ESTADO = 1 AND ID_USUARIO =?;";
-            List<Map<String, Object>> resultProducts = jdbcTemplate.queryForList(query);
+            List<Map<String, Object>> resultDB = jdbcTemplate.queryForList(query);
             List<Note> GetNotes = new ArrayList<>();
 
-            for (Map<String, Object> row : resultProducts) {
+            for (Map<String, Object> row : resultDB) {
 
                 int noteID = (int) row.get("ID_NOTAS");
                 Boolean status = (boolean) row.get("ESTADO");
@@ -135,7 +125,6 @@ public class DatabaseService {
                 String content = (String) row.get("CONTENIDO");
                 int userID = (int) row.get("ID_USUARIO");
                
-
                 Note note = new Note(noteID, status, title, content, userID);
                 GetNotes.add(note);
             }
