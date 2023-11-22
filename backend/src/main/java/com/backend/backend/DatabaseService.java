@@ -123,7 +123,7 @@ public class DatabaseService {
     //Notas completadas
     public List<Note> getAllCompleteNotes() {
         try {
-            String query = "SELECT * FROM Notas WHERE ESTADO = 1;";
+            String query = "SELECT * FROM Notas WHERE ESTADO = 1 AND ID_USUARIO =?;";
             List<Map<String, Object>> resultProducts = jdbcTemplate.queryForList(query);
             List<Note> GetNotes = new ArrayList<>();
 
@@ -177,7 +177,4 @@ public class DatabaseService {
             // Handle exceptions if needed
         }
     }
-
-
-
 }
