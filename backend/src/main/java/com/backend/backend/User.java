@@ -38,13 +38,12 @@ public class User {
     }
 
     // Constructor "vacio"
-    public User( String username,String email, String password) {
-        
-        this.Username = username;
-        this.Email = email;
-        this.Password = password;
-        this.JWT = generateJsonWebToken(username, password);
-  
+    public User(int userID, String name, String lastnames, String email) {
+        UserID = userID;
+        Name = name;
+        Lastnames = lastnames;
+        Email = email;
+      
     }
 
     // Getters and Setters
