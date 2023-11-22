@@ -67,6 +67,14 @@ public class MyRestController {
     public List<Note> allCompleteNotes() {
         return databaseService.getAllCompleteNotes() ;
     }
+    
+    @PostMapping("/login")
+    public User loginUser(String username, String password) {
+
+        User  tmpUser =  databaseService.authenticateUser(username,password) ;
+        tmpUser.setJTW();
+        return tmpUser;
+        }
 
     @DeleteMapping("/note")
     public void deleteNota(int id) {
