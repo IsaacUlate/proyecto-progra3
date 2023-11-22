@@ -15,6 +15,7 @@ public class User {
     private String JWT;
     private String mySecreString = "SECRET-KEY"; 
 
+    // Constructor sin parametros
     public User() {
         this.UserID = 0;
         this.Name = "";
@@ -36,12 +37,17 @@ public class User {
         this.JWT = generateJsonWebToken(username, password);
     }
 
-    public User( ) {
+    // Constructor "vacio"
+    public User( String username,String email, String password) {
         
-        
+        this.Username = username;
+        this.Email = email;
+        this.Password = password;
+        this.JWT = generateJsonWebToken(username, password);
   
     }
 
+    // Getters and Setters
     public int getUserID() {
         return UserID;
     }
@@ -85,6 +91,7 @@ public class User {
         this.JWT = generateJsonWebToken(this.Username, this.Password);
     }  
 
+    // Genera el JWT para encriptar contraseñas
         private String generateJsonWebToken(String username, String password) {
         try {
             // Concatenate username, password, and secret key
