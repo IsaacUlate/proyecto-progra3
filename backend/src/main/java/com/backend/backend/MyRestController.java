@@ -45,8 +45,8 @@ public class MyRestController {
     }
     //Notas incompletas
     @GetMapping("/note/all")
-    public List<Note> allNotes() {
-        return databaseService.getAllNotes() ;
+    public List<Note> allNotes(int id) {
+        return databaseService.getAllNotes(id) ;
     }
 
     @PutMapping("/note/byid")
@@ -64,11 +64,11 @@ public class MyRestController {
     }
 
     @GetMapping("/note/complete")
-    public List<Note> allCompleteNotes() {
-        return databaseService.getAllCompleteNotes() ;
+    public List<Note> allCompleteNotes(int id) {
+        return databaseService.getAllCompleteNotes(id) ;
     }
     
-    @PostMapping("/login")
+    @GetMapping("/login")
     public User loginUser(String username, String password) {
 
         User  tmpUser =  databaseService.authenticateUser(username,password) ;

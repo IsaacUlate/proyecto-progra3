@@ -88,10 +88,10 @@ public class DatabaseService {
         }
     }
     //Notas incompletas
-    public List<Note> getAllNotes() {
+    public List<Note> getAllNotes(int id) {
         try {
             String query = "SELECT * FROM Notas WHERE ESTADO = 0 AND ID_USUARIO =?;";
-            List<Map<String, Object>> resultDB = jdbcTemplate.queryForList(query);
+            List<Map<String, Object>> resultDB = jdbcTemplate.queryForList(query, id);
             List<Note> GetNotes = new ArrayList<>();
 
             for (Map<String, Object> row : resultDB) {
@@ -112,10 +112,10 @@ public class DatabaseService {
         }
     }
     //Notas completadas
-    public List<Note> getAllCompleteNotes() {
+    public List<Note> getAllCompleteNotes(int id) {
         try {
             String query = "SELECT * FROM Notas WHERE ESTADO = 1 AND ID_USUARIO =?;";
-            List<Map<String, Object>> resultDB = jdbcTemplate.queryForList(query);
+            List<Map<String, Object>> resultDB = jdbcTemplate.queryForList(query, id);
             List<Note> GetNotes = new ArrayList<>();
 
             for (Map<String, Object> row : resultDB) {
