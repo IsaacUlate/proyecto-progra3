@@ -2,11 +2,14 @@ package com.backend.backend;
 
 public class Note {
 
+    // Atributos
     private int NoteID;
     private boolean status; 
     private String title;
     private String Content;
     private int UserID;
+    
+    // Constructor
     public Note(int noteID, boolean status, String title, String content, int userID) {
         NoteID = noteID;
         this.status = status;
@@ -14,6 +17,8 @@ public class Note {
         Content = content;
         UserID = userID;
     }
+
+    // Getters and Setters
     public int getNoteID() {
         return NoteID;
     }

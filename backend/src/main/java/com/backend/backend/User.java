@@ -13,7 +13,17 @@ public class User {
     private String Username;
     private String Password;
     private String JWT;
-    private String mySecreString= "Api/Note78%";
+    private String mySecreString = "SECRET-KEY"; 
+
+    public User() {
+        this.UserID = 0;
+        this.Name = "";
+        this.Lastnames = "";
+        this.Email = "";
+        this.Username = "";
+        this.Password = "";
+
+    }
     
     //Constructor de Usuarios
     public User(int userID, String name, String lastnames, String email, String username, String password) {
@@ -24,6 +34,12 @@ public class User {
         Username = username;
         Password = password;
         this.JWT = generateJsonWebToken(username, password);
+    }
+
+    public User( ) {
+        
+        
+  
     }
 
     public int getUserID() {
