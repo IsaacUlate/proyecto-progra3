@@ -12,6 +12,13 @@ public class DatabaseService {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    //se inyecta el servicio de base de datos
+    @Autowired
+    public DatabaseService(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+    
     //Se crea getAllUsers para mostrar todos los usuarios
     public List<User> getAllUsers() {
         try {
