@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 @RestController
 @RequestMapping("/api")
 public class MyRestController {
@@ -15,6 +16,7 @@ public class MyRestController {
     private DatabaseService databaseService;
 
     //Llama a todos los usuarios de la base de datos
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/user/all")
     public List<User> all() {
         return databaseService.getAllUsers() ;
@@ -44,6 +46,7 @@ public class MyRestController {
         databaseService.insertNota(note);
     }
     //Notas incompletas
+   // @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/note/all")
     public List<Note> allNotes(int id) {
         return databaseService.getAllNotes(id) ;
