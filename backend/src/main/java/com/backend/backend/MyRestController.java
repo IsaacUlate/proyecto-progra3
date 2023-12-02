@@ -1,14 +1,20 @@
 package com.backend.backend;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.WebRequest;
+
+
 @RestController
 @RequestMapping("/api")
 public class MyRestController {
@@ -27,10 +33,10 @@ public class MyRestController {
         return databaseService.getUser(id) ;
     }
     //Inserta Usuarios a la base de datos
+        @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/user")
-    public void insert(String name, String lastnames, String email, String username, String password){
+    public void insert(@RequestBody User user){
 
-        User user = new User(0, name, lastnames, email, username, password);
         databaseService.insertUsuario(user);
     }
     //Borra usuarios de la base de datos
@@ -46,7 +52,7 @@ public class MyRestController {
         databaseService.insertNota(note);
     }
     //Notas incompletas
-   // @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/note/all")
     public List<Note> allNotes(int id) {
         return databaseService.getAllNotes(id) ;
@@ -71,13 +77,27 @@ public class MyRestController {
         return databaseService.getAllCompleteNotes(id) ;
     }
     
-    @GetMapping("/login")
+     @CrossOrigin(origins = "http://localhost:3000")
+    @PostMapping("/login")
     public User loginUser(String username, String password) {
 
         User  tmpUser =  databaseService.authenticateUser(username,password) ;
         tmpUser.setJTW();
+        
         return tmpUser;
         }
+    //         @CrossOrigin(origins = "http://localhost:3000")
+    // @PostMapping("/login")
+    // public ResponseEntity<String> loginUser(String username, String password) {
+    //     User user = databaseService.authenticateUser(username, password);
+    //     if (user != null) {
+    //         return new ResponseEntity<String>("Login successful", HttpStatus.OK);
+    //     } else {
+    //         return new ResponseEntity<String>("Invalid username or password", HttpStatus.UNAUTHORIZED);
+    //     }
+    // }
+
+        
 
     @DeleteMapping("/note")
     public void deleteNota(int id) {
