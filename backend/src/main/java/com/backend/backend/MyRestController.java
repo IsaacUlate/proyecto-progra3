@@ -28,23 +28,26 @@ public class MyRestController {
         return databaseService.getAllUsers() ;
     }
     //Llama a un usuario existente por ID de la base de datos
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/user/byid")
     public User all(int id) {
         return databaseService.getUser(id) ;
     }
     //Inserta Usuarios a la base de datos
-        @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/user")
     public void insert(@RequestBody User user){
 
         databaseService.insertUsuario(user);
     }
     //Borra usuarios de la base de datos
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/user")
     public void delete(int id) {
         databaseService.deleteUsuario(id) ;
     }
     // **Notes**
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/note")
     public void insert(String title, String content, int userID){
 
@@ -58,6 +61,7 @@ public class MyRestController {
         return databaseService.getAllNotes(id) ;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/note/byid")
     public void update(int id, String title, String content) {
 
@@ -65,6 +69,7 @@ public class MyRestController {
         databaseService.updateNota(note) ;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/note/complete")
     public void updateNotaCompletada(int id) {
 
@@ -72,6 +77,7 @@ public class MyRestController {
         databaseService.updateNotaCompletada(note) ;
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/note/complete")
     public List<Note> allCompleteNotes(int id) {
         return databaseService.getAllCompleteNotes(id) ;
@@ -98,7 +104,7 @@ public class MyRestController {
     // }
 
         
-
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/note")
     public void deleteNota(int id) {
 
