@@ -29,6 +29,7 @@ class DatabaseServiceTest {
         databaseService = new DatabaseService(jdbcTemplate);
     }
 
+    //test unitario mas detallado
     @Test
     void testGetAllUsers() {
         // Mocking the result from the database
