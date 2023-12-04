@@ -21,6 +21,13 @@ public class MyRestController {
     @Autowired
     private DatabaseService databaseService;
 
+    //login
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/user/login")
+    public User authenticateUser(String username, String password) {
+        return databaseService.authenticateUser(username, password);
+    }
+
     //Llama a todos los usuarios de la base de datos
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/user/all")

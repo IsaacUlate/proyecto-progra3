@@ -36,7 +36,19 @@ public class DatabaseService {
             return null;
         }
     }
-    //Se crea getUser para mostrar a los usuarios por ID
+    /*public User login(String username, String password){
+        try{
+            String query = "SELECT * FROM Usuario WHERE Contraseña = ? AND Nombre_Usuario = ?";
+            return jdbcTemplate.queryForObject(query, (rs, rowNum) -> {
+                int UserID = (int)rs.getInt("ID_Usuario");
+                String Username = rs.getString("Nombre_Usuario");
+                String Password = rs.getString("Contraseña");
+                
+                return new User(UserID, Username, Password);
+            }, username, password);
+        }
+    }*/
+  //Se crea getUser para mostrar a los usuarios por ID
     public User getUser(int id) {
         System.out.println("logId = " + id);
         try {
@@ -171,8 +183,8 @@ public class DatabaseService {
     public User authenticateUser(String username, String password) {
         System.out.println("logId = " + username);
         try {
-            String query = "SELECT * FROM USUARIO WHERE Username = ? and Password =?";
-
+            String query = "SELECT * FROM Usuario WHERE Nombre_Usuario = ? AND Contraseña = ?";
+           
             return jdbcTemplate.queryForObject(query, (rs, rowNum) -> {
                 int UserID = (int)rs.getInt("ID_Usuario");
                 String Name = rs.getString("Nombre");

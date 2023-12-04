@@ -95,7 +95,7 @@ public class User {
         try {
             // Concatenate username, password, and secret key
             String dataToHash = ""+username + password + mySecreString;
-            System.out.println("jtw = " + username);
+            System.out.println("jwt = " + username);
      
             // Use SHA-256 algorithm to hash the data
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
