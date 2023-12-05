@@ -1,4 +1,5 @@
 package com.backend.backend;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,13 @@ public class DatabaseService {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    //se inyecta el servicio de base de datos
+    @Autowired
+    public DatabaseService(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+    
     //Se crea getAllUsers para mostrar todos los usuarios
     public List<User> getAllUsers() {
         try {
@@ -82,7 +90,7 @@ public class DatabaseService {
     //Se crea el deleteUsuario para eliminar usuarios
     public int deleteUsuario(int id) {
         try {
-            String query = "DELETE FROM USUARIO WHERE ID_Usuario = ?";
+            String query = "DELETE FROM USUARIO WHERE ID_Usuario = ?"; 
             jdbcTemplate.update(query, id);
             return 1;
         } catch (Exception e) {
@@ -201,4 +209,18 @@ public class DatabaseService {
         }
     }
   
+    public List<Note> llamarNotas(List<Note> note){
+        try{
+       List<Note> GetNotes = new ArrayList<>();
+       String query = "SELECT * FROM Notas";
+        
+       return GetNotes;
+       }
+      
+       catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+ }
+
 }

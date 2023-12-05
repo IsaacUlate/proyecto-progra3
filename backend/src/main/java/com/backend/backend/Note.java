@@ -1,5 +1,6 @@
 package com.backend.backend;
 
+
 public class Note {
 
     // Atributos
@@ -49,6 +50,7 @@ public class Note {
     public void setUserID(int userID) {
         UserID = userID;
     }
+
 }
 
 

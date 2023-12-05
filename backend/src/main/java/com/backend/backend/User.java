@@ -13,7 +13,8 @@ public class User {
     private String Username;
     private String Password;
     private String JWT;
-    private String mySecreString = "SECRET-KEY"; 
+    private String mySecreString = "SECRET-KEY";
+     
 
     // Constructor sin parametros
     public User() {
