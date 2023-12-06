@@ -21,7 +21,7 @@ class DatabaseServiceIntegrationTest {
     @Autowired
     private DatabaseService databaseService;
 
-    //test unitario
+    //test unitario 1
     @Test
     void testGetAllUsersFromDatabase() {
         // llama la base de datos
