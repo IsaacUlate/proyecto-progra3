@@ -139,10 +139,10 @@ public class DatabaseService {
         }
     }
     //Notas incompletas
-    public List<Note> getAllNotes(int id) {
+    public List<Note> getAllNotes(int idUser) {
         try {
             String query = "SELECT * FROM Notas WHERE ESTADO = 1 AND ID_USUARIO =?;";
-            List<Map<String, Object>> resultDB = jdbcTemplate.queryForList(query, id);
+            List<Map<String, Object>> resultDB = jdbcTemplate.queryForList(query, idUser);
             List<Note> GetNotes = new ArrayList<>();
 
             for (Map<String, Object> row : resultDB) {

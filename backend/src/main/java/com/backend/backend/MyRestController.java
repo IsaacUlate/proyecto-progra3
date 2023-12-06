@@ -70,8 +70,8 @@ public class MyRestController {
     //Notas incompletas
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/note/all")
-    public List<Note> allNotes(int id) {
-        return databaseService.getAllNotes(id) ;
+    public List<Note> allNotes(int idUser) {
+        return databaseService.getAllNotes(idUser) ;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
