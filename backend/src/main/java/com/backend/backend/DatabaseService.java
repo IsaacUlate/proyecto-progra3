@@ -241,7 +241,8 @@ public class DatabaseService {
             }, username, password);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println("no encontrado");
             return null;
         }
     }
