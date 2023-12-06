@@ -74,6 +74,7 @@ public class MyRestController {
 
         Note note = new Note(id, false, title, content, 0);
         databaseService.updateNota(note) ;
+        
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

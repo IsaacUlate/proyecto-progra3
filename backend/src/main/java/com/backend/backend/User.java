@@ -107,7 +107,7 @@ public class User {
             for (byte b : hashedBytes) {
                 hexString.append(String.format("%02x", b));
             }
-            System.out.println("jtw = " + hexString.toString());
+            System.out.println("jwt = " + hexString.toString());
      
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
