@@ -1,4 +1,7 @@
 package com.backend.backend;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +60,7 @@ public class DatabaseService {
         }
     }*/
   //Se crea getUser para mostrar a los usuarios por ID
+  
     public User getUser(int id) {
         System.out.println("logId = " + id);
         try {
@@ -99,6 +103,33 @@ public class DatabaseService {
         }
     }
     //******** Notes ********
+    
+    //Todas las notas de todos
+
+    public List<Note> getAllNotesAllUsers() {
+        try {
+            String query = "SELECT * FROM Notas";
+            List<Map<String, Object>> resultDB = jdbcTemplate.queryForList(query);
+            List<Note> GetNotes = new ArrayList<>();
+
+            for (Map<String, Object> row : resultDB) {
+
+                int noteID = (int) row.get("ID_NOTAS");
+                Boolean status = (boolean) row.get("ESTADO");
+                String title = (String) row.get("TITULO");
+                String content = (String) row.get("CONTENIDO");
+                int userID = (int) row.get("ID_USUARIO");
+               
+                Note note = new Note(noteID, status, title, content, userID);
+                GetNotes.add(note);
+            }
+            return GetNotes;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public void insertNota(Note note) {
         try {
             String query = "INSERT NOTAS SET ESTADO = ?,TITULO = ?, CONTENIDO = ?, ID_USUARIO = ? "; 
@@ -131,6 +162,7 @@ public class DatabaseService {
             return null;
         }
     }
+
     //Notas completadas
     public List<Note> getAllCompleteNotes(int id) {
         try {
@@ -190,7 +222,8 @@ public class DatabaseService {
 
     public User authenticateUser(String username, String password) {
         System.out.println("logId = " + username);
-        try {
+        
+            try {
             String query = "SELECT * FROM Usuario WHERE Nombre_Usuario = ? AND Contraseña = ?";
            
             return jdbcTemplate.queryForObject(query, (rs, rowNum) -> {
@@ -200,15 +233,19 @@ public class DatabaseService {
                 String Email = rs.getString("Email");
                 String Username = rs.getString("Nombre_Usuario");
                 String Password = rs.getString("Contraseña");
-        
+                User userauth = new User(UserID,Name,Lastnames,Email,Username,Password);
+                String token = Username + Password;
+                
+                userauth.setJTW();
                 return new User(UserID,Name,Lastnames,Email,Username,Password);
             }, username, password);
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
-  
+
     public List<Note> llamarNotas(List<Note> note){
         try{
        List<Note> GetNotes = new ArrayList<>();
@@ -222,5 +259,6 @@ public class DatabaseService {
             return null;
         }
  }
+
 
 }

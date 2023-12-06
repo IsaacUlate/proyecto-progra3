@@ -25,7 +25,11 @@ public class MyRestController {
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/user/login")
     public User authenticateUser(String username, String password) {
-        return databaseService.authenticateUser(username, password);
+        User  tmpUser =  databaseService.authenticateUser(username,password) ;
+        tmpUser.setJTW();
+        
+        return tmpUser;
+        //return databaseService.authenticateUser(username, password);
     }
 
     //Llama a todos los usuarios de la base de datos
@@ -90,16 +94,22 @@ public class MyRestController {
     public List<Note> allCompleteNotes(int id) {
         return databaseService.getAllCompleteNotes(id) ;
     }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/notes")
+    public List<Note> allNotes() {
+        return databaseService.getAllNotesAllUsers() ;
+    }
     
-     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/login")
+    /* @CrossOrigin(origins = "http://localhost:3000")
+     @PostMapping("/login")
     public User loginUser(String username, String password) {
 
         User  tmpUser =  databaseService.authenticateUser(username,password) ;
         tmpUser.setJTW();
         
         return tmpUser;
-        }
+        }*/
     //         @CrossOrigin(origins = "http://localhost:3000")
     // @PostMapping("/login")
     // public ResponseEntity<String> loginUser(String username, String password) {

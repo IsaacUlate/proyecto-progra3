@@ -13,6 +13,7 @@ public class User {
     private String Username;
     private String Password;
     private String JWT;
+    private String JWTdb;
     private String mySecreString = "SECRET-KEY";
      
 
@@ -36,6 +37,7 @@ public class User {
         Username = username;
         Password = password;
         this.JWT = generateJsonWebToken(username, password);
+        
     }
 
     // Constructor "vacio"
@@ -90,9 +92,12 @@ public class User {
     public void setJTW() {
         this.JWT = generateJsonWebToken(this.Username, this.Password);
     }  
+    
+
+    
 
     // Genera el JWT para encriptar contraseñas
-        private String generateJsonWebToken(String username, String password) {
+        public String generateJsonWebToken(String username, String password) {
         try {
             // Concatenate username, password, and secret key
             String dataToHash = ""+username + password + mySecreString;
@@ -115,7 +120,4 @@ public class User {
             return null; // Handle the exception appropriately in a real-world scenario
         }
     }
-
-    
-
 }
