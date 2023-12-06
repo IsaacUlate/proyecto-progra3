@@ -23,7 +23,7 @@ public class MyRestController {
 
     //login
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/user/login")
+    @PostMapping("/user/login")
     public User authenticateUser(String username, String password) {
         User  tmpUser =  databaseService.authenticateUser(username,password);
         if (tmpUser != null) {
