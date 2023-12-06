@@ -190,8 +190,8 @@ public class DatabaseService {
 
     public void updateNota(Note note) {
         try {
-            String query = "UPDATE NOTAS SET TITULO = ?, CONTENIDO = ? WHERE ID_NOTAS = ?";
-            jdbcTemplate.update(query, note.getTitle(),note.getContent(), note.getNoteID());
+            String query = "UPDATE NOTAS SET TITULO = ?, CONTENIDO = ? WHERE ID_NOTAS = ? AND ID_USUARIO =?";
+            jdbcTemplate.update(query, note.getTitle(),note.getContent(), note.getNoteID() , note.getUserID());
         } catch (Exception e) {
             e.printStackTrace();
             // Handle exceptions if needed

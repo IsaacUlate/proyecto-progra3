@@ -92,6 +92,10 @@ public class User {
     public void setJTW() {
         this.JWT = generateJsonWebToken(this.Username, this.Password);
     }  
+
+    public String getJWT(){
+        return JWT;
+    }
     
 
     
