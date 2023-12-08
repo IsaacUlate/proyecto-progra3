@@ -10,6 +10,8 @@ public class Note {
     private String Content;
     private int UserID;
     
+    
+
     // Constructor
     public Note(int noteID, boolean status, String title, String content, int userID) {
         NoteID = noteID;
@@ -55,6 +57,14 @@ public class Note {
     }
     public void setUserID(int userID) {
         UserID = userID;
+    }
+
+
+    /**
+     * @return boolean return the status
+     */
+    public boolean isStatus() {
+        return status;
     }
 
 }

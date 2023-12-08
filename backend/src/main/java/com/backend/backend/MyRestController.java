@@ -63,9 +63,11 @@ public class MyRestController {
     // **Notes**
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/note")
-    public void insert(String title, String content, int userID){
+
+    public void insertNotaEnd(String title, String content, int userID){
 
         Note note = new Note(0,false,content, title, userID);
+        
         databaseService.insertNota(note);
     }
     //Notas incompletas
