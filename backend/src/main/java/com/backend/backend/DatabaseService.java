@@ -85,7 +85,7 @@ public class DatabaseService {
     //Se crea el insertUsuario para agregar usuarios
     public void insertUsuario(User user) {
         try {
-            String query = "INSERT USUARIO SET Nombre = ?, Apellidos = ?, Email = ?, Nombre_Usuario = ?, Contraseña = ? ";
+            String query = "INSERT INTO USUARIO SET Nombre = ?, Apellidos = ?, Email = ?, Nombre_Usuario = ?, Contraseña = ? ";
             jdbcTemplate.update(query, user.getName(),user.getLastnames(),user.getEmail(), user.getUsername(), user.getPassword());
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,7 +132,7 @@ public class DatabaseService {
 
     public void insertNota(Note note) {
         try {
-            String query = "INSERT NOTAS SET ESTADO = ?,TITULO = ?, CONTENIDO = ?, ID_USUARIO = ? "; 
+            String query = "INSERT INTO NOTAS SET ESTADO = ?,TITULO = ?, CONTENIDO = ?, ID_USUARIO = ? "; 
             jdbcTemplate.update(query, note.getStatus(),note.getTitle(),note.getContent(),note.getUserID());
         } catch (Exception e) {
             e.printStackTrace();
