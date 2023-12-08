@@ -78,13 +78,16 @@ public class MyRestController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PutMapping("/note/byid")
-    public void update(int idNota, String title, String content, int idUser) {
+@PutMapping("/note/byid")
+public void update(String content) {
 
-        Note note = new Note(idNota, false, title, content, idUser);
-        databaseService.updateNota(note) ;
-        
-    }
+    System.out.println("content: " + content);
+   // System.out.println("noteID: " + noteID);
+
+    //Note note = new Note(noteID, false, title, content, userID);
+   // databaseService.updateNota("note");
+}
+
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/note/complete")

@@ -21,6 +21,12 @@ public class Note {
         UserID = userID;
     }
 
+        
+    // Constructor
+    public Note() {
+       
+    }
+
     // Getters and Setters
     public int getNoteID() {
         return NoteID;
