@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -62,9 +63,11 @@ public class MyRestController {
     // **Notes**
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/note")
-    public void insert(String title, String content, int userID){
+
+    public void insertNotaEnd(String title, String content, int userID){
 
         Note note = new Note(0,false,content, title, userID);
+        
         databaseService.insertNota(note);
     }
     //Notas incompletas
