@@ -33,15 +33,10 @@ public class DatabaseService {
     //Se crea getAllUsers para mostrar todos los usuarios
     public List<User> getAllUsers() {
         try {
-                User user = new User();
-                //String token = user.getJWT();
-                //String tokenGuardado = user.getJWT();
                 String token = User.getStoredToken();
                 System.out.println("Mi token inicio: " + token);
-                String tokenNuevo = user.generateJsonWebToken(user.getUsername(), user.getPassword());
-                System.out.println("Mi token comprobacion: " + authenticatedUserToken);
+                System.out.println("Mi token nuevo: " + authenticatedUserToken);
                 
-                //System.out.println("Token generado: " + token);
                 if (token == authenticatedUserToken && authenticatedUserToken != null){
 
                     
@@ -73,35 +68,33 @@ public class DatabaseService {
                             return null;
                         }    
     }
-    /*public User login(String username, String password){
-        try{
-            String query = "SELECT * FROM Usuario WHERE Contraseña = ? AND Nombre_Usuario = ?";
-            return jdbcTemplate.queryForObject(query, (rs, rowNum) -> {
-                int UserID = (int)rs.getInt("ID_Usuario");
-                String Username = rs.getString("Nombre_Usuario");
-                String Password = rs.getString("Contraseña");
-                
-                return new User(UserID, Username, Password);
-            }, username, password);
-        }
-    }*/
+    
   //Se crea getUser para mostrar a los usuarios por ID
   
     public User getUser(int id) {
         System.out.println("logId = " + id);
         try {
-            String query = "SELECT * FROM USUARIO WHERE ID_Usuario = ?";
-
-            return jdbcTemplate.queryForObject(query, (rs, rowNum) -> {
-                int UserID = (int)rs.getInt("ID_Usuario");
-                String Name = rs.getString("Nombre");
-                String Lastnames = rs.getString("Apellidos");
-                String Email = rs.getString("Email");
-                String Username = rs.getString("Nombre_Usuario");
-                String Password = rs.getString("Contraseña");
+            String token = User.getStoredToken();
+                System.out.println("Mi token inicio: " + token);
+                System.out.println("Mi token nuevo: " + authenticatedUserToken);
                 
-                return new User(UserID, Name, Lastnames, Email, Username, Password);
-            }, id);
+                if (token == authenticatedUserToken && authenticatedUserToken != null){
+                    String query = "SELECT * FROM USUARIO WHERE ID_Usuario = ?";
+
+                    return jdbcTemplate.queryForObject(query, (rs, rowNum) -> {
+                        int UserID = (int)rs.getInt("ID_Usuario");
+                        String Name = rs.getString("Nombre");
+                        String Lastnames = rs.getString("Apellidos");
+                        String Email = rs.getString("Email");
+                        String Username = rs.getString("Nombre_Usuario");
+                        String Password = rs.getString("Contraseña");
+                        
+                        return new User(UserID, Name, Lastnames, Email, Username, Password);
+                    }, id);
+                }else{
+                    System.out.println("Los tokens no son iguales o hay null");
+                    return null;
+                }    
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -120,9 +113,19 @@ public class DatabaseService {
     //Se crea el deleteUsuario para eliminar usuarios
     public int deleteUsuario(int id) {
         try {
-            String query = "DELETE FROM USUARIO WHERE ID_Usuario = ?"; 
-            jdbcTemplate.update(query, id);
-            return 1;
+                String token = User.getStoredToken();
+                System.out.println("Mi token inicio: " + token);
+                System.out.println("Mi token nuevo: " + authenticatedUserToken);
+                
+                if (token == authenticatedUserToken && authenticatedUserToken != null){
+                    jdbcTemplate.update("DELETE FROM Notas WHERE ID_USUARIO = ?", id);
+                    String query = "DELETE FROM USUARIO WHERE ID_Usuario = ?"; 
+                    jdbcTemplate.update(query, id);
+                    return 1;
+                }else{
+                    System.out.println("Los tokens no son iguales o hay null");
+                    return 0;
+                }    
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
@@ -134,32 +137,46 @@ public class DatabaseService {
 
     public List<Note> getAllNotesAllUsers() {
         try {
-            String query = "SELECT * FROM Notas";
-            List<Map<String, Object>> resultDB = jdbcTemplate.queryForList(query);
-            List<Note> GetNotes = new ArrayList<>();
+            String token = User.getStoredToken();
+            System.out.println("Mi token inicio: " + token);
+            System.out.println("Mi token nuevo: " + authenticatedUserToken);
+                
+                if (token == authenticatedUserToken && authenticatedUserToken != null){
+                    System.out.println("Mi token: " + token);
+                    String query = "SELECT * FROM Notas";
+                    List<Map<String, Object>> resultDB = jdbcTemplate.queryForList(query);
+                    List<Note> GetNotes = new ArrayList<>();
 
-            for (Map<String, Object> row : resultDB) {
+                    for (Map<String, Object> row : resultDB) {
 
-                int noteID = (int) row.get("ID_NOTAS");
-                Boolean status = (boolean) row.get("ESTADO");
-                String title = (String) row.get("TITULO");
-                String content = (String) row.get("CONTENIDO");
-                int userID = (int) row.get("ID_USUARIO");
-               
-                Note note = new Note(noteID, status, title, content, userID);
-                GetNotes.add(note);
-            }
-            return GetNotes;
-        } catch (Exception e) {
+                        int noteID = (int) row.get("ID_NOTAS");
+                        Boolean status = (boolean) row.get("ESTADO");
+                        String title = (String) row.get("TITULO");
+                        String content = (String) row.get("CONTENIDO");
+                        int userID = (int) row.get("ID_USUARIO");
+                    
+                        Note note = new Note(noteID, status, title, content, userID);
+                        GetNotes.add(note);
+                    }
+                    return GetNotes;
+                }else{
+                    return Collections.emptyList();
+                    }
+                }catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-    }
+    
+}
 
     public void insertNota(Note note) {
         try {
-            String query = "INSERT INTO NOTAS SET ESTADO = ?,TITULO = ?, CONTENIDO = ?, ID_USUARIO = ? "; 
-            jdbcTemplate.update(query, note.getStatus(),note.getTitle(),note.getContent(),note.getUserID());
+            String token = User.getStoredToken();
+                if (token == authenticatedUserToken && authenticatedUserToken != null){
+                String query = "INSERT INTO NOTAS SET ESTADO = ?,TITULO = ?, CONTENIDO = ?, ID_USUARIO = ? "; 
+                jdbcTemplate.update(query, note.getStatus(),note.getTitle(),note.getContent(),note.getUserID());
+                
+            }    
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -167,22 +184,27 @@ public class DatabaseService {
     //Notas incompletas
     public List<Note> getAllNotes(int idUser) {
         try {
-            String query = "SELECT * FROM Notas WHERE ESTADO = 1 AND ID_USUARIO =?;";
-            List<Map<String, Object>> resultDB = jdbcTemplate.queryForList(query, idUser);
-            List<Note> GetNotes = new ArrayList<>();
+            String token = User.getStoredToken();    
+                if (token == authenticatedUserToken && authenticatedUserToken != null){
+                    String query = "SELECT * FROM Notas WHERE ESTADO = 0 AND ID_USUARIO =?;";
+                    List<Map<String, Object>> resultDB = jdbcTemplate.queryForList(query, idUser);
+                    List<Note> GetNotes = new ArrayList<>();
 
-            for (Map<String, Object> row : resultDB) {
+                    for (Map<String, Object> row : resultDB) {
 
-                int noteID = (int) row.get("ID_NOTAS");
-                Boolean status = (boolean) row.get("ESTADO");
-                String title = (String) row.get("TITULO");
-                String content = (String) row.get("CONTENIDO");
-                int userID = (int) row.get("ID_USUARIO");
-               
-                Note note = new Note(noteID, status, title, content, userID);
-                GetNotes.add(note);
-            }
-            return GetNotes;
+                        int noteID = (int) row.get("ID_NOTAS");
+                        Boolean status = (boolean) row.get("ESTADO");
+                        String title = (String) row.get("TITULO");
+                        String content = (String) row.get("CONTENIDO");
+                        int userID = (int) row.get("ID_USUARIO");
+                    
+                        Note note = new Note(noteID, status, title, content, userID);
+                        GetNotes.add(note);
+                    }
+                    return GetNotes;
+            }else{
+                    return Collections.emptyList();
+                    }
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -192,22 +214,27 @@ public class DatabaseService {
     //Notas completadas
     public List<Note> getAllCompleteNotes(int id) {
         try {
-            String query = "SELECT * FROM Notas WHERE ESTADO = 1 AND ID_USUARIO =?;";
-            List<Map<String, Object>> resultDB = jdbcTemplate.queryForList(query, id);
-            List<Note> GetNotes = new ArrayList<>();
+            String token = User.getStoredToken();    
+                if (token == authenticatedUserToken && authenticatedUserToken != null){
+                    String query = "SELECT * FROM Notas WHERE ESTADO = 1 AND ID_USUARIO =?;";
+                    List<Map<String, Object>> resultDB = jdbcTemplate.queryForList(query, id);
+                    List<Note> GetNotes = new ArrayList<>();
 
-            for (Map<String, Object> row : resultDB) {
+                    for (Map<String, Object> row : resultDB) {
 
-                int noteID = (int) row.get("ID_NOTAS");
-                Boolean status = (boolean) row.get("ESTADO");
-                String title = (String) row.get("TITULO");
-                String content = (String) row.get("CONTENIDO");
-                int userID = (int) row.get("ID_USUARIO");
-               
-                Note note = new Note(noteID, status, title, content, userID);
-                GetNotes.add(note);
-            }
-            return GetNotes;
+                        int noteID = (int) row.get("ID_NOTAS");
+                        Boolean status = (boolean) row.get("ESTADO");
+                        String title = (String) row.get("TITULO");
+                        String content = (String) row.get("CONTENIDO");
+                        int userID = (int) row.get("ID_USUARIO");
+                    
+                        Note note = new Note(noteID, status, title, content, userID);
+                        GetNotes.add(note);
+                    }
+                    return GetNotes;
+                }else{
+                    return Collections.emptyList();
+                }
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -216,8 +243,11 @@ public class DatabaseService {
 
     public void updateNota(Note note) {
         try {
-            String query = "UPDATE NOTAS SET TITULO = ?, CONTENIDO = ? WHERE ID_NOTAS = ? AND ID_USUARIO =?";
-            jdbcTemplate.update(query, note.getTitle(),note.getContent(), note.getNoteID() , note.getUserID());
+            String token = User.getStoredToken();    
+                if (token == authenticatedUserToken && authenticatedUserToken != null){
+                String query = "UPDATE NOTAS SET TITULO = ?, CONTENIDO = ? WHERE ID_NOTAS = ? AND ID_USUARIO =?";
+                jdbcTemplate.update(query, note.getTitle(),note.getContent(), note.getNoteID() , note.getUserID());
+                }
         } catch (Exception e) {
             e.printStackTrace();
             // Handle exceptions if needed
@@ -226,8 +256,11 @@ public class DatabaseService {
 
     public void updateNotaCompletada(Note note) {
         try {
-            String query = "UPDATE NOTAS SET ESTADO = ? WHERE ID_NOTAS = ?";
-            jdbcTemplate.update(query, note.getStatus(), note.getNoteID());
+            String token = User.getStoredToken();    
+                if (token == authenticatedUserToken && authenticatedUserToken != null){
+                String query = "UPDATE NOTAS SET ESTADO = ? WHERE ID_NOTAS = ?";
+                jdbcTemplate.update(query, note.getStatus(), note.getNoteID());
+                }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -235,9 +268,14 @@ public class DatabaseService {
 
     public int deleteNota(int id) {
         try {
-            String query = "DELETE FROM NOTAS WHERE ID_NOTAS = ?";
-            jdbcTemplate.update(query, id);
-            return 1;
+            String token = User.getStoredToken();    
+                if (token == authenticatedUserToken && authenticatedUserToken != null){
+                String query = "DELETE FROM NOTAS WHERE ID_NOTAS = ?";
+                jdbcTemplate.update(query, id);
+                return 1;
+            }else{
+                return 0;
+            }    
         } catch (Exception e) {
             e.printStackTrace();
             return 0;
@@ -277,25 +315,8 @@ public class DatabaseService {
             System.out.println("no encontrado");
             User user = new User();
             String token = user.getJWT();
-            User.setStoredToken(token+"abcd");
+            User.setStoredToken(token);
             return null;
         }
     }
-    
-
-    public List<Note> llamarNotas(List<Note> note){
-        try{
-       List<Note> GetNotes = new ArrayList<>();
-       String query = "SELECT * FROM Notas";
-        
-       return GetNotes;
-       }
-      
-       catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
- }
-
-
 }

@@ -78,14 +78,14 @@ public class MyRestController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-@PutMapping("/note/byid")
-public void update(String content) {
+    @PutMapping("/note/byid")
+    public void update(String content, String title, int noteID, int userID) {
 
     System.out.println("content: " + content);
    // System.out.println("noteID: " + noteID);
 
-    //Note note = new Note(noteID, false, title, content, userID);
-   // databaseService.updateNota("note");
+    Note note = new Note(noteID, false, title, content, userID);
+    databaseService.updateNota(note);
 }
 
 
@@ -99,8 +99,8 @@ public void update(String content) {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/note/complete")
-    public List<Note> allCompleteNotes(int id) {
-        return databaseService.getAllCompleteNotes(id) ;
+    public List<Note> allCompleteNotes(int idUser) {
+        return databaseService.getAllCompleteNotes(idUser) ;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
@@ -108,27 +108,6 @@ public void update(String content) {
     public List<Note> allNotes() {
         return databaseService.getAllNotesAllUsers() ;
     }
-    
-    /* @CrossOrigin(origins = "http://localhost:3000")
-     @PostMapping("/login")
-    public User loginUser(String username, String password) {
-
-        User  tmpUser =  databaseService.authenticateUser(username,password) ;
-        tmpUser.setJTW();
-        
-        return tmpUser;
-        }*/
-    //         @CrossOrigin(origins = "http://localhost:3000")
-    // @PostMapping("/login")
-    // public ResponseEntity<String> loginUser(String username, String password) {
-    //     User user = databaseService.authenticateUser(username, password);
-    //     if (user != null) {
-    //         return new ResponseEntity<String>("Login successful", HttpStatus.OK);
-    //     } else {
-    //         return new ResponseEntity<String>("Invalid username or password", HttpStatus.UNAUTHORIZED);
-    //     }
-    // }
-
         
     @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/note")
