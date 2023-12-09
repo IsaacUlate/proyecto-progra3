@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,29 +24,54 @@ public class DatabaseService {
         this.jdbcTemplate = jdbcTemplate;
     }
     
+    private String authenticatedUserToken;
+    //User user = new User();
+    //String token = user.getJWT();
+    
+
+    
     //Se crea getAllUsers para mostrar todos los usuarios
     public List<User> getAllUsers() {
         try {
-            String query = "SELECT * FROM Usuario";
-            List<Map<String, Object>> resultDB = jdbcTemplate.queryForList(query);
-            List<User> GetUsers = new ArrayList<>();
+                User user = new User();
+                //String token = user.getJWT();
+                //String tokenGuardado = user.getJWT();
+                String token = User.getStoredToken();
+                System.out.println("Mi token inicio: " + token);
+                String tokenNuevo = user.generateJsonWebToken(user.getUsername(), user.getPassword());
+                System.out.println("Mi token comprobacion: " + authenticatedUserToken);
+                
+                //System.out.println("Token generado: " + token);
+                if (token == authenticatedUserToken && authenticatedUserToken != null){
 
-            for (Map<String, Object> row : resultDB) {
-                int UserID = (int) row.get("ID_Usuario");
-                String Name = (String) row.get("Nombre");
-                String Lastnames = (String) row.get("Apellidos");
-                String Email = (String) row.get("Email");
-                String Username = (String) row.get("Nombre_Usuario");
-                String Password = (String) row.get("Contraseña");
+                    
+                            
+                            System.out.println("Mi token: " + token);
+                            String query = "SELECT * FROM Usuario";
+                            List<Map<String, Object>> resultDB = jdbcTemplate.queryForList(query);
+                            List<User> GetUsers = new ArrayList<>();
 
-                User Usuario = new User(UserID, Name, Lastnames, Email, Username, Password);
-                GetUsers.add(Usuario);
-            }
-            return GetUsers;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+                            for (Map<String, Object> row : resultDB) {
+                                int UserID = (int) row.get("ID_Usuario");
+                                String Name = (String) row.get("Nombre");
+                                String Lastnames = (String) row.get("Apellidos");
+                                String Email = (String) row.get("Email");
+                                String Username = (String) row.get("Nombre_Usuario");
+                                String Password = (String) row.get("Contraseña");
+
+                                User Usuario = new User(UserID, Name, Lastnames, Email, Username, Password);
+                                GetUsers.add(Usuario);
+                            }
+                            return GetUsers;
+                        
+                }else{
+                    System.out.println("Los tokens no son iguales");
+                    return Collections.emptyList();
+                }
+            } catch (Exception e) {
+                            e.printStackTrace();
+                            return null;
+                        }    
     }
     /*public User login(String username, String password){
         try{
@@ -73,7 +99,7 @@ public class DatabaseService {
                 String Email = rs.getString("Email");
                 String Username = rs.getString("Nombre_Usuario");
                 String Password = rs.getString("Contraseña");
-              
+                
                 return new User(UserID, Name, Lastnames, Email, Username, Password);
             }, id);
         } catch (Exception e) {
@@ -226,7 +252,7 @@ public class DatabaseService {
             try {
             String query = "SELECT * FROM Usuario WHERE Nombre_Usuario = ? AND Contraseña = ?";
            
-            return jdbcTemplate.queryForObject(query, (rs, rowNum) -> {
+            User authenticatedUser = jdbcTemplate.queryForObject(query, (rs, rowNum) -> {
                 int UserID = (int)rs.getInt("ID_Usuario");
                 String Name = rs.getString("Nombre");
                 String Lastnames = rs.getString("Apellidos");
@@ -234,18 +260,28 @@ public class DatabaseService {
                 String Username = rs.getString("Nombre_Usuario");
                 String Password = rs.getString("Contraseña");
                 User userauth = new User(UserID,Name,Lastnames,Email,Username,Password);
-                String token = Username + Password;
+                //String token = userauth.getJWT();
                 
-                userauth.setJTW();
+                String token = userauth.getJWT();
+                User.setStoredToken(token);
+
+                //String JWT = userAuth.setJTW();
+                this.authenticatedUserToken = token;
+                //userauth.setJTW();
                 return new User(UserID,Name,Lastnames,Email,Username,Password);
             }, username, password);
+            return authenticatedUser;
 
         } catch (Exception e) {
             //e.printStackTrace();
             System.out.println("no encontrado");
+            User user = new User();
+            String token = user.getJWT();
+            User.setStoredToken(token+"abcd");
             return null;
         }
     }
+    
 
     public List<Note> llamarNotas(List<Note> note){
         try{

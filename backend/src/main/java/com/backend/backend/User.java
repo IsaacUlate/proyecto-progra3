@@ -15,7 +15,8 @@ public class User {
     private String JWT;
     private String JWTdb;
     private String mySecreString = "SECRET-KEY";
-     
+    private static String storedToken;
+    
 
     // Constructor sin parametros
     public User() {
@@ -97,7 +98,13 @@ public class User {
         return JWT;
     }
     
+    public static String getStoredToken() {
+        return storedToken;
+    }
 
+    public static void setStoredToken(String token) {
+        storedToken = token;
+    }
     
 
     // Genera el JWT para encriptar contraseñas
