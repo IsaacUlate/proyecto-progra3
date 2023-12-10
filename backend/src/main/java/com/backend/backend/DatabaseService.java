@@ -27,21 +27,22 @@ public class DatabaseService {
     private String authenticatedUserToken;
     //User user = new User();
     //String token = user.getJWT();
+    public Object authenticateUser;
     
 
     
     //Se crea getAllUsers para mostrar todos los usuarios
     public List<User> getAllUsers() {
         try {
-                String token = User.getStoredToken();
-                System.out.println("Mi token inicio: " + token);
-                System.out.println("Mi token nuevo: " + authenticatedUserToken);
+                //String token = User.getStoredToken();
+                //System.out.println("Mi token inicio: " + token);
+                //System.out.println("Mi token nuevo: " + authenticatedUserToken);
                 
-                if (token == authenticatedUserToken && authenticatedUserToken != null){
+                //if (token == authenticatedUserToken && authenticatedUserToken != null){
 
                     
                             
-                            System.out.println("Mi token: " + token);
+                            //System.out.println("Mi token: " + token);
                             String query = "SELECT * FROM Usuario";
                             List<Map<String, Object>> resultDB = jdbcTemplate.queryForList(query);
                             List<User> GetUsers = new ArrayList<>();
@@ -59,10 +60,10 @@ public class DatabaseService {
                             }
                             return GetUsers;
                         
-                }else{
-                    System.out.println("Los tokens no son iguales");
-                    return Collections.emptyList();
-                }
+                //}else{
+                 //   System.out.println("Los tokens no son iguales");
+                 //   return Collections.emptyList();
+               // }
             } catch (Exception e) {
                             e.printStackTrace();
                             return null;
@@ -74,11 +75,7 @@ public class DatabaseService {
     public User getUser(int id) {
         System.out.println("logId = " + id);
         try {
-            String token = User.getStoredToken();
-                System.out.println("Mi token inicio: " + token);
-                System.out.println("Mi token nuevo: " + authenticatedUserToken);
-                
-                if (token == authenticatedUserToken && authenticatedUserToken != null){
+
                     String query = "SELECT * FROM USUARIO WHERE ID_Usuario = ?";
 
                     return jdbcTemplate.queryForObject(query, (rs, rowNum) -> {
@@ -91,10 +88,7 @@ public class DatabaseService {
                         
                         return new User(UserID, Name, Lastnames, Email, Username, Password);
                     }, id);
-                }else{
-                    System.out.println("Los tokens no son iguales o hay null");
-                    return null;
-                }    
+                
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -297,17 +291,18 @@ public class DatabaseService {
                 String Email = rs.getString("Email");
                 String Username = rs.getString("Nombre_Usuario");
                 String Password = rs.getString("Contraseña");
-                User userauth = new User(UserID,Name,Lastnames,Email,Username,Password);
+                //User userauth = new User(UserID,Name,Lastnames,Email,Username,Password);
                 //String token = userauth.getJWT();
                 
-                String token = userauth.getJWT();
-                User.setStoredToken(token);
-
+                
                 //String JWT = userAuth.setJTW();
-                this.authenticatedUserToken = token;
+                //this.authenticatedUserToken = token;
                 //userauth.setJTW();
                 return new User(UserID,Name,Lastnames,Email,Username,Password);
             }, username, password);
+            authenticatedUser.setJTW();
+            //authenticatedUser.setStoredToken(token);
+
             return authenticatedUser;
 
         } catch (Exception e) {
@@ -317,6 +312,37 @@ public class DatabaseService {
             String token = user.getJWT();
             User.setStoredToken(token);
             return null;
+        }
+    }
+
+    public boolean checkJWT(int id, String JWT) {
+        try {
+            String query = "SELECT * FROM Usuario WHERE ID_Usuario = ?";
+           
+            User authenticatedUser = jdbcTemplate.queryForObject(query, (rs, rowNum) -> {
+                int UserID = (int)rs.getInt("ID_Usuario");
+                String Name = rs.getString("Nombre");
+                String Lastnames = rs.getString("Apellidos");
+                String Email = rs.getString("Email");
+                String Username = rs.getString("Nombre_Usuario");
+                String Password = rs.getString("Contraseña");
+
+                return new User(UserID,Name,Lastnames,Email,Username,Password);
+            }, id);
+            String token = authenticatedUser.getJWT();
+            
+            if (token.equals(JWT)) {
+                return true;
+            }else{
+                return false;
+            }
+            
+            
+
+        } catch (Exception e) {
+            //e.printStackTrace();
+            System.out.println("no encontrado");
+            return false;
         }
     }
 }

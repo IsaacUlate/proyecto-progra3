@@ -2,8 +2,14 @@ package com.backend.backend;
 
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
+
 import java.security.MessageDigest;
 
+@Service
 public class User {
     //Variables para Usuarios
     private int UserID;
@@ -17,6 +23,13 @@ public class User {
     private String mySecreString = "SECRET-KEY";
     private static String storedToken;
     
+    
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    
+
 
     // Constructor sin parametros
     public User() {
@@ -26,8 +39,10 @@ public class User {
         this.Email = "";
         this.Username = "";
         this.Password = "";
+        this.JWT = "";
 
     }
+
     
     //Constructor de Usuarios
     public User(int userID, String name, String lastnames, String email, String username, String password) {
@@ -38,6 +53,7 @@ public class User {
         Username = username;
         Password = password;
         this.JWT = generateJsonWebToken(username, password);
+        setJTW();
         
     }
 
@@ -105,6 +121,8 @@ public class User {
     public static void setStoredToken(String token) {
         storedToken = token;
     }
+    
+    
     
 
     // Genera el JWT para encriptar contraseñas

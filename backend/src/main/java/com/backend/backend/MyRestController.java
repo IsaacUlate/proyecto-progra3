@@ -1,4 +1,5 @@
 package com.backend.backend;
+import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,14 +39,30 @@ public class MyRestController {
     //Llama a todos los usuarios de la base de datos
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/user/all")
-    public List<User> all() {
-        return databaseService.getAllUsers() ;
+    public List<User> all(int idUsuarioSesion, String token) {
+        User user = new User();
+    if (databaseService.checkJWT(idUsuarioSesion, token)) {
+        return databaseService.getAllUsers();
+    } else {
+        System.out.println("El token no coincide o el usuario no existe.");
+        return Collections.emptyList();
+    }
+        
+        
     }
     //Llama a un usuario existente por ID de la base de datos
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/user/byid")
-    public User all(int id) {
-        return databaseService.getUser(id) ;
+    public User all(int id, String token, int idUsuarioSesion) {
+
+         if (databaseService.checkJWT(idUsuarioSesion, token)) {
+            return databaseService.getUser(id) ;
+         }else {
+        System.out.println("El token no coincide o el usuario no existe.");
+        return null;
+    }
+
+        
     }
     //Inserta Usuarios a la base de datos
     @CrossOrigin(origins = "http://localhost:3000")
