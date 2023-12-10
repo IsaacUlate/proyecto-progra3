@@ -74,62 +74,85 @@ public class MyRestController {
     //Borra usuarios de la base de datos
     @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/user")
-    public void delete(int id) {
-        databaseService.deleteUsuario(id) ;
+    public void delete(int id, int idUsuarioSesion, String token) {
+        if (databaseService.checkJWT(idUsuarioSesion, token)) {
+            databaseService.deleteUsuario(id) ;
+         }
+         
+          
     }
     // **Notes**
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/note")
 
-    public void insertNotaEnd(String title, String content, int userID){
+    public void insertNotaEnd(String title, String content, int idUsuarioSesion, String token){
 
-        Note note = new Note(0,false,content, title, userID);
-        
-        databaseService.insertNota(note);
-    }
+        if (databaseService.checkJWT(idUsuarioSesion, token)) {
+            Note note = new Note(0,false,content, title, idUsuarioSesion);
+            databaseService.insertNota(note);
+         }
+        }
+
     //Notas incompletas
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/note/all")
-    public List<Note> allNotes(int idUser) {
-        return databaseService.getAllNotes(idUser) ;
+    public List<Note> allNotes(int idUsuarioSesion, String token) {
+        if (databaseService.checkJWT(idUsuarioSesion, token)) {
+        return databaseService.getAllNotes(idUsuarioSesion) ;
+    } else {
+       return Collections.emptyList();
+    }
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/note/byid")
-    public void update(String content, String title, int noteID, int userID) {
-
-    System.out.println("content: " + content);
-   // System.out.println("noteID: " + noteID);
-
-    Note note = new Note(noteID, false, title, content, userID);
+    public void update(String content, String title, int noteID, int idUsuarioSesion, String token) {
+        if (databaseService.checkJWT(idUsuarioSesion, token)) {
+        Note note = new Note(noteID, false, title, content, idUsuarioSesion);
     databaseService.updateNota(note);
-}
+    }
+    
 
+    
+}
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/note/complete")
-    public void updateNotaCompletada(int id) {
-
+    public void updateNotaCompletada(int id, int idUsuarioSesion, String token) {
+        if (databaseService.checkJWT(idUsuarioSesion, token)) {
         Note note = new Note(id, true, null, null, 0);
         databaseService.updateNotaCompletada(note) ;
+    }
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/note/complete")
-    public List<Note> allCompleteNotes(int idUser) {
-        return databaseService.getAllCompleteNotes(idUser) ;
+    public List<Note> allCompleteNotes(int idUsuarioSesion, String token) {
+        if (databaseService.checkJWT(idUsuarioSesion, token)) {
+        return databaseService.getAllCompleteNotes(idUsuarioSesion) ;
+    } else {
+       return Collections.emptyList();
+    }
+        
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/notes")
-    public List<Note> allNotes() {
+    public List<Note> allNotesAllUsers(int idUsuarioSesion, String token) {
+        if (databaseService.checkJWT(idUsuarioSesion, token)) {
         return databaseService.getAllNotesAllUsers() ;
+    } else {
+       return Collections.emptyList();
+    }
+        
     }
         
     @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/note")
-    public void deleteNota(int id) {
-
-        databaseService.deleteNota(id) ;
+    public void deleteNota(int id, int idUsuarioSesion, String token) {
+        if (databaseService.checkJWT(idUsuarioSesion, token)) {
+            databaseService.deleteNota(id) ;
+         }
+        
     }
 }
