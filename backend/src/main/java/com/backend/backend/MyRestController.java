@@ -85,10 +85,10 @@ public class MyRestController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/note")
 
-    public void insertNotaEnd(String content, String title, int idUsuarioSesion, String token){
+    public void insertNotaEnd(String title, String content, int idUsuarioSesion, String token){
 
         if (databaseService.checkJWT(idUsuarioSesion, token)) {
-            Note note = new Note(0,false,content, title, idUsuarioSesion);
+            Note note = new Note(0,false, title, content, idUsuarioSesion);
             databaseService.insertNota(note);
          }
         }
@@ -103,7 +103,6 @@ public class MyRestController {
        return Collections.emptyList();
     }
     }
-
 
     @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/note/byid")
