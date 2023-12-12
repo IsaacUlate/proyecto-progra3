@@ -88,7 +88,7 @@ public class MyRestController {
     public void insertNotaEnd(String title, String content, int idUsuarioSesion, String token){
 
         if (databaseService.checkJWT(idUsuarioSesion, token)) {
-            Note note = new Note(0,false,content, title, idUsuarioSesion);
+            Note note = new Note(0,false, title, content, idUsuarioSesion);
             databaseService.insertNota(note);
          }
         }
