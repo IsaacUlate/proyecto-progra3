@@ -27,6 +27,8 @@
                         Username = String;
                         Password = String;
                     }
+
+                    int idUsuarioSesion, String token
                 </pre>
             </p>
         </div>
@@ -40,8 +42,9 @@
                 <strong>Método:</strong> GET<br>
                 <strong>Descripción:</strong> Llama a un usuario existente por ID de la base de datos.<br>
                 <strong>Ejemplo:</strong>
-                <pre>      
-                    key: id value: 3                   
+                <pre> 
+                    key: id     
+                    int id, String token, int idUsuarioSesion                  
                 </pre>
             </p>
         </div>
@@ -61,7 +64,8 @@
                         email: 'jose.m@example.com',
                         username: 'joma',
                         password: 'password123'
-                    }                   
+                    }
+                                   
                 </pre>
             </p>
         </div>
@@ -75,7 +79,8 @@
                 <strong>Descripción:</strong> Borra usuarios de la base de datos.<br>
                 <strong>Ejemplo:</strong>
                 <pre>
-                    key: id value: 3
+                    key: id
+                    int id, int idUsuarioSesion, String token
                 </pre>
             </p>
         </div>
@@ -90,11 +95,7 @@
                 <strong>Ejemplo:</strong>
                 <pre>
                     
-                    {
-                        title: 'Title',
-                        content: 'Note content',
-                        userID: 1 //Esto lo deben dar, no permitir que el usuario lo ingrese
-                    }
+                    String title, String content, int idUsuarioSesion, String token
                    
                 </pre>
             </p>
@@ -109,7 +110,7 @@
                 <strong>Descripción:</strong> Devuelve todas las notas incompletas por el ID del usuario.<br>
                 <strong>Ejemplo:</strong>
                 <pre>
-                    key: id, value: 3
+                    int idUsuarioSesion, String token
                 </pre>
             </p>
         </div>
@@ -123,11 +124,12 @@
                 <strong>Descripción:</strong> Actualiza una nota existente por su ID<br>
                 <strong>Ejemplo:</strong>
                 <pre>
-                    {
+                    
                         id: 1,
                         title: 'Updated Title',
                         content: 'Updated content'
-                    }
+                    
+                    int id, int idUsuarioSesion, String token
                 </pre>
             </p>
         </div>
@@ -141,6 +143,8 @@
                 <strong>Descripción:</strong> Cambia el estado de una nota a completada por ID.<br>
                 <strong>Ejemplo:</strong>
                 <pre>
+                    int id, int idUsuarioSesion, String token
+
                     id: 3 //Si quieren marcarla como completa deben enviar la id de la nota a la api cuando 
                     marquen el check de completa
                 </pre>
@@ -157,6 +161,7 @@
                 <strong>Ejemplo:</strong>
                 <pre>
                     key: id value: 3
+                    int id, int idUsuarioSesion, String token
                 </pre>
             </p>
         </div>
@@ -171,6 +176,7 @@
                 <strong>Ejemplo:</strong>
                 <pre>
                     key: id, value: 3
+                    int id, int idUsuarioSesion, String token
                 </pre>
             </p>
         </div>
@@ -180,19 +186,12 @@
         <h2>Endpoint 11: Login</h2>
         <div class="endpoint-content">
             <p>
-                <strong>Endpoint:</strong> <code>/user/all</code><br>
-                <strong>Método:</strong> GET<br>
+                <strong>Endpoint:</strong> <code>/user/login</code><br>
+                <strong>Método:</strong> POST<br>
                 <strong>Descripción:</strong> Llama a todos los usuarios de la base de datos.<br>
                 <strong>Ejemplo:</strong>
                 <pre>
-                    User{   
-                        UserID = int;
-                        Name = String;
-                        Lastnames = String;
-                        Email = String;
-                        Username = String;
-                        Password = String;
-                    }
+                    String username, String password
                 </pre>
             </p>
         </div>
