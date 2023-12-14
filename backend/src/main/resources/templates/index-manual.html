@@ -19,6 +19,15 @@
                 <strong>Descripción:</strong> Llama a todos los usuarios de la base de datos.<br>
                 <strong>Ejemplo:</strong>
                 <pre>
+                    User{
+                        UserID = int;
+                        Name = String;
+                        Lastnames = String;
+                        Email = String;
+                        Username = String;
+                        Password = String;
+                    }
+
                     int idUsuarioSesion, String token
                 </pre>
             </p>
@@ -33,7 +42,8 @@
                 <strong>Método:</strong> GET<br>
                 <strong>Descripción:</strong> Llama a un usuario existente por ID de la base de datos.<br>
                 <strong>Ejemplo:</strong>
-                <pre>      
+                <pre> 
+                    key: id     
                     int id, String token, int idUsuarioSesion                  
                 </pre>
             </p>
@@ -48,7 +58,14 @@
                 <strong>Descripción:</strong> Inserta Usuarios a la base de datos.<br>
                 <strong>Ejemplo:</strong>
                 <pre>
-                    @RequestBody User user                  
+                    {
+                        name: 'Jose',
+                        lastnames: 'Madrigal',
+                        email: 'jose.m@example.com',
+                        username: 'joma',
+                        password: 'password123'
+                    }
+                                   
                 </pre>
             </p>
         </div>
@@ -62,6 +79,7 @@
                 <strong>Descripción:</strong> Borra usuarios de la base de datos.<br>
                 <strong>Ejemplo:</strong>
                 <pre>
+                    key: id
                     int id, int idUsuarioSesion, String token
                 </pre>
             </p>
@@ -142,6 +160,7 @@
                 <strong>Descripción:</strong> Devuelve todas las notas Completadas.<br>
                 <strong>Ejemplo:</strong>
                 <pre>
+                    key: id value: 3
                     int id, int idUsuarioSesion, String token
                 </pre>
             </p>
@@ -156,6 +175,7 @@
                 <strong>Descripción:</strong> Elimina una nota por ID.<br>
                 <strong>Ejemplo:</strong>
                 <pre>
+                    key: id, value: 3
                     int id, int idUsuarioSesion, String token
                 </pre>
             </p>
